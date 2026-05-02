@@ -1,0 +1,12 @@
+*.vs/*
+.venv/
+*.pdf
+*.cache/
+*.runs/
+*.sim/
+*.ip_user_files/
+*.log
+*.jou
+*.wdb
+*.dcp
+*.wcfg
