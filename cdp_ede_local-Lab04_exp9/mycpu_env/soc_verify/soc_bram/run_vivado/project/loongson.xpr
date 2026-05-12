@@ -3,7 +3,7 @@
 <!--                                                         -->
 <!-- Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.   -->
 
-<Project Version="7" Minor="44" Path="K:/mycpu_env/soc_verify/soc_bram/run_vivado/project/loongson.xpr">
+<Project Version="7" Minor="44" Path="B:/mycpu_env/soc_verify/soc_bram/run_vivado/project/loongson.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="7a95543d6c614ad3bb19b44bbd234d08"/>
@@ -29,7 +29,7 @@
     <Option Name="IPUserFilesDir" Val="$PIPUSERFILESDIR"/>
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
-    <Option Name="WTXSimLaunchSim" Val="19"/>
+    <Option Name="WTXSimLaunchSim" Val="20"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
@@ -207,7 +207,6 @@
       <File Path="$PPRDIR/../../rtl/xilinx_ip/inst_ram/simulation/blk_mem_gen_v8_4.v">
         <FileInfo>
           <Attr Name="UserDisabled" Val="1"/>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -216,7 +215,6 @@
       <File Path="$PPRDIR/../../rtl/xilinx_ip/clk_pll/clk_pll.v">
         <FileInfo>
           <Attr Name="UserDisabled" Val="1"/>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -225,7 +223,6 @@
       <File Path="$PPRDIR/../../rtl/xilinx_ip/data_ram/hdl/blk_mem_gen_v8_4_vhsyn_rfs.vhd">
         <FileInfo>
           <Attr Name="UserDisabled" Val="1"/>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
@@ -233,7 +230,6 @@
       <File Path="$PPRDIR/../../rtl/xilinx_ip/inst_ram/misc/blk_mem_gen_v8_4.vhd">
         <FileInfo>
           <Attr Name="UserDisabled" Val="1"/>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
@@ -241,7 +237,6 @@
       <File Path="$PPRDIR/../../rtl/xilinx_ip/data_ram/misc/blk_mem_gen_v8_4.vhd">
         <FileInfo>
           <Attr Name="UserDisabled" Val="1"/>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
@@ -249,7 +244,6 @@
       <File Path="$PPRDIR/../../rtl/xilinx_ip/clk_pll/clk_pll_sim_netlist.vhdl">
         <FileInfo>
           <Attr Name="UserDisabled" Val="1"/>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
@@ -257,7 +251,6 @@
       <File Path="$PPRDIR/../../rtl/xilinx_ip/clk_pll/clk_pll_stub.vhdl">
         <FileInfo>
           <Attr Name="UserDisabled" Val="1"/>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
@@ -265,7 +258,6 @@
       <File Path="$PPRDIR/../../rtl/xilinx_ip/data_ram/data_ram_sim_netlist.vhdl">
         <FileInfo>
           <Attr Name="UserDisabled" Val="1"/>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
@@ -273,7 +265,6 @@
       <File Path="$PPRDIR/../../rtl/xilinx_ip/inst_ram/inst_ram_sim_netlist.vhdl">
         <FileInfo>
           <Attr Name="UserDisabled" Val="1"/>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>

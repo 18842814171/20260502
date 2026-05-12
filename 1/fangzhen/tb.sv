@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
-// 仿真顶层：加载 BaseRAM 测试 bin，复位后运行 CPU；与实验《要求》一致可核对 ExtRAM 结果。
-// BaseRAM: 虚拟 0x8000_0000~0x803F_FFFF；ExtRAM: 0x8040_0000~0x807F_FFFF。
+// 仿真顶层：加�? BaseRAM 测试 bin，复位后运行 CPU；与实验《要求�?�一致可核对 ExtRAM 结果�?
+// BaseRAM: 虚拟 0x8000_0000~0x803F_FFFF；ExtRAM: 0x8040_0000~0x807F_FFFF�?
 
 module tb;
 
@@ -29,7 +29,7 @@ wire        ext_ram_ce_n;
 wire        ext_ram_oe_n;
 wire        ext_ram_we_n;
 
-parameter BASE_RAM_INIT_FILE = "E:/fangzhen/lab2/lab2.bin";
+parameter BASE_RAM_INIT_FILE = "E:/fangzhen/lab1/lab1.bin";
 parameter RUN_AFTER_RESET_NS = 5000000;
 
 assign rxd = 1'b1;
@@ -115,7 +115,7 @@ initial begin
             base2.mem_array1[i] = init_word_array[i][0+:8];
         end
     end
-    // ExtRAM 不预置文件（与《要求》：先清空/重置 ExtRAM 再跑测试 一致）
+    // ExtRAM 不预置文件（与�?�要求�?�：先清�?/重置 ExtRAM 再跑测试 �?致）
 end
 
 integer      dump_k;
@@ -128,7 +128,7 @@ initial begin
     #2000;
     reset_btn = 1'b0;
     #(RUN_AFTER_RESET_NS);
-    $display("--- ExtRAM physical word dump [0:64] (对照《要求》ExtRAM 字节 0x0~0x100) ---");
+    $display("--- ExtRAM physical word dump [0:64] (对照《要求�?�ExtRAM 字节 0x0~0x100) ---");
     for (dump_k = 0; dump_k <= 64; dump_k = dump_k + 1) begin
         $display("  ext_word[%0d] = %08h", dump_k, {
             ext1.mem_array0[dump_k],

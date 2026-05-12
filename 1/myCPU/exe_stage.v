@@ -91,12 +91,13 @@ assign es_to_ms_valid =  es_valid && es_ready_go;
 always @(posedge clk) begin
     if (reset) begin
         es_valid <= 1'b0;
+        ds_to_es_bus_r <= {`DS_TO_ES_BUS_WD{1'b0}};
     end
     else if (es_allowin) begin
         es_valid <= ds_to_es_valid;
     end
 
-    if (ds_to_es_valid && es_allowin) begin
+    if (!reset && ds_to_es_valid && es_allowin) begin
         ds_to_es_bus_r <= ds_to_es_bus;
     end
 end

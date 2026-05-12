@@ -221,6 +221,7 @@ assign ds_to_es_valid  = ds_valid && ds_ready_go;
 always @(posedge clk) begin
     if (reset) begin
         ds_valid <= 1'b0;
+        fs_to_ds_bus_r <= {`FS_TO_DS_BUS_WD{1'b0}};
     end
     else if (br_taken && ds_ready_go) begin
         ds_valid <= 1'b0;
@@ -229,7 +230,7 @@ always @(posedge clk) begin
         ds_valid <= fs_to_ds_valid;
     end
 
-    if (fs_to_ds_valid && ds_allowin) begin
+    if (!reset && fs_to_ds_valid && ds_allowin) begin
         fs_to_ds_bus_r <= fs_to_ds_bus;
     end
 end

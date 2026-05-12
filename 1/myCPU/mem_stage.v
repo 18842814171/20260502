@@ -73,6 +73,7 @@ always @(posedge clk) begin
         ms_valid <= 1'b0;
         ms_waiting <= 1'b0;
         ms_load_data_r <= 32'b0;
+        es_to_ms_bus_r <= {`ES_TO_MS_BUS_WD{1'b0}};
     end
     else if (ms_allowin) begin
         ms_valid <= es_to_ms_valid;
@@ -85,11 +86,12 @@ always @(posedge clk) begin
         ms_waiting <= 1'b0;
     end
 
-    if (es_to_ms_valid && ms_allowin) begin
+    if (!reset && es_to_ms_valid && ms_allowin) begin
         es_to_ms_bus_r  <= es_to_ms_bus; // 改动
     end
 end
-assign mem_result   = ms_res_from_mem ? ms_load_data_r : data_sram_rdata;
+// Non-load: do not use data_sram_rdata here (may be Z); avoids X/Z in mem_byte cone.
+assign mem_result   = ms_res_from_mem ? ms_load_data_r : 32'b0;
 wire [7:0] mem_byte; // 改动
 assign mem_byte = (ms_alu_result[1:0] == 2'b00) ? mem_result[7:0]   :
                   (ms_alu_result[1:0] == 2'b01) ? mem_result[15:8]  :

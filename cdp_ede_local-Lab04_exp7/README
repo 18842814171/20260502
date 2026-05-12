@@ -1,52 +1,32 @@
-对应实验手册请参阅[《LoongArch CPU设计实验》](https://bookdown.org/ghostboy316/bookdown/chapter-fpga-board.html)。
+https://bookdown.org/ghostboy316/bookdown/chapter-simple-pipeline-cpu.html#subsec-exp7
 
-NOTE: 
-  1. minicpu_env/miniCPU/目录下的代码功能不全，是有意为之，无需提issue修正。
-  2. mycpu_env/myCPU/目录下的代码有功能错误，亦是有意为之，无需提issue修正。
+实践任务7：不考虑相关冲突处理的简单流水线CPU
+本实践任务要求在实践任务6实现的单周期CPU基础上完成以下工作：
 
+调整CPU顶层接口，增加指令RAM的片选信号 inst_sram_ce 和数据RAM的片选信号 data_sram_ce。
+调整CPU顶层接口，将inst_sram_we 和 data_sram_we 都从1比特的写使能调整为4比特的字节写使能。
+设计一个不考虑相关引发的冲突的单发射五级流水CPU。
+运行exp7对应的func，要求成功通过仿真和上板验证。
+请参照第2.3.1节中介绍的方式获取本次实践任务所需的实验开发环境。具体的实验环境仍位于 mycpu_env/ 目录下，不过验证时不再使用soc_dram/子目录，而应使用soc_bram/子目录。
 
-================================================================================
-实验安排简介
-================================================================================
-// dc_env
-exp1  : 跑马灯实验。熟悉Vivado和FPGA实验环境基本使用技能。
-exp2  : 寄存器堆仿真；
-exp3  : 同步、异步 RAM 仿真、综合实现；
-exp4  : 数字逻辑电路的设计与调试。
+伴随着CPU访问的指令RAM和数据RAM的实现形式从distributed RAM更换为block RAM，实验开发环境也需要有所调整：仍然是mycpu_env实验环境，gettrace/、func/ 和 myCPU/ 子目录的位置和用途依然维持不变，只是 soc_verify/ 子目录下不再使用 soc_dram/ 子目录而是改为使用 soc_bram/ 子目录，soc_bram/ 子目录中的文件组织结构和用途与 soc_dram/ 子目录中的相似。调整后的实验开发环境的目录结构及各部分功能简介如下所示：
 
-// minicpu_env
-exp5  : 5条指令单周期CPU，跑斐波那契数程序，给RTL填空方式。
+|--gettrace/                生成参考trace的部分。
+|--func/                    实验任务所用的功能验证测试程序。
+|--myCPU/                   自己实现的CPU的RTL代码。
+|--soc_verify/              自己实现的CPU的SoC系统验证环境
+   |--soc_bram/             CPU对外连接block RAM接口时对应的验证环境。
+   |  |--rtl/               SoC_Lite设计代码目录。
+   |  |  |--soc_lite_top.v  SoC_Lite的顶层文件。
+   |  |  |--CONFREG/        confreg模块，用于访问CPU与开发板上数码管、拨码开关等外设。
+   |  |  |--BRIDGE/         1×2的桥接模块， CPU的data sram接口同时访问confreg和data_ram。
+   |  |  |--xilinx_ip/      定制的Xilinx IP，包含clk_pll、inst_ram、data_ram。
+   |  |--testbench/         功能仿真验证平台。
+   |  |  |--mycpu_tb.v      功能仿真顶层，该模块会抓取debug信息与golden_trace.txt进行比对。
+   |  |--run_vivado/        Vivado工程的运行目录。
+   |     |--constraints/    Vivado工程的设计约束。
+   |     |--mycpu_bram_prj/ Vivado工程文件所在目录。
+从实践任务7开始的指令RAM和数据RAM均采用block RAM实现，其访问时需要给出片选信号。为此myCPU 顶层接口中增加指令RAM的片选信号 inst_sram_ce 和数据RAM的片选信号 data_sram_ce。两个信号均为1比特，均为高电平有效。
 
-// mycpu_env  -  soc_dram i/f (distributed ram interface) 
-exp6  : 20条指令单周期CPU，测试规模缩减版func的n1~n20，给RTL找错误并修正。
-
-// mycpu_env  -  soc_bram i/f (block ram interface)
-exp7  : 20条指令五级流水CPU，不考虑hazard，测试插NOP的func的n1~n20，增量开发。
-exp8  : 20条指令五级流水CPU，cancel解决control hazard，阻塞解决data hazard，测试
-        func的n1~n20，增量开发。
-exp9  : 20条指令五级流水CPU，forward优化data hazard处理，测试func的n1~n20，增量
-        开发。
-exp10 : 增加用户态运算类指令，测试func的n1~n36，增量开发。
-exp11 : 增加用户态转移指令和除了ll.w、sc.w之外的用户态访存指令，测试func的n1~n46，
-        增量开发。
-exp12 : 支持syscall例外，测试func的n1~n47，增量开发。
-exp13 : 支持更多例外，测试func的n1~n58，增量开发。
-
-// mycpu_env  -  soc_hs_bram i/f (handshaking block ram interface)
-exp14 : CPU采用带握手机制的接口，测试func的n1~n58，增量开发。
-
-// mycpu_env  -  soc_axi i/f (AXI bus interface)
-exp15 : CPU采用AXI接口，外部固定延迟响应，测试func的n1~n58，增量开发。
-exp16 : CPU采用AXI接口，外部随机延迟响应，测试func的n1~n58，增量开发。
-exp18 : CPU集成TLB模块后并支持TLB相关指令和CSR，测试func的n1~n70，增量开发。
-exp19 : CPU支持TLB MMU功能，测试func的n1~n72，增量开发。
-exp21 : CPU实现指令Cache，测试func的n1~n72，增量开发。
-exp22 : CPU实现数据Cache，测试func的n1~n72，增量开发。
-exp23 : CPU支持CACOP指令，测试func的n1~n79，增量开发。
-
-// mycpu_env  -  module_tlb 
-exp17 : TLB模块设计，非func测试，单独开发。
-
-// mycpu_env  -  module_cache
-exp20 : Cache模块设计，非func测试，单独开发。
+尽管实践任务7中存数指令仅实现了st.w，但考虑到后续实践任务的需求，myCPU 顶层接口中的 inst_sram_we 和 data_sram_we 都从1比特改为4比特，其含义也从RAM的写使能调整为RAM的字节写使能。
 
